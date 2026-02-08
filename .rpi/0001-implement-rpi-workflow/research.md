@@ -2,16 +2,16 @@
 
 ## 1. Problem Statement Analysis
 
-- Trigger: The repository's stated initiative is to "Implement a complete RPI workflow inside VSCode using Custom Agents, Custom Instructions, Skills." (Source: .rpi-docs/The RPI Pattern_ A Research Study.md — Intro & Section 5).
+- Trigger: The repository's stated initiative is to "Implement a complete RPI workflow inside VSCode using Custom Agents, Custom Instructions, Skills." (Source: .rpi-docs/rpi-pattern.md — Intro & Section 5).
 
-  (Source: .rpi-docs/The RPI Pattern_ A Research Study.md — "The goal of the overall initiative is: Implement a complete RPI workflow inside VSCode using: • Custom Agents • Custom Instructions • Skills" and Section 5.)
+  (Source: .rpi-docs/rpi-pattern.md — "The goal of the overall initiative is: Implement a complete RPI workflow inside VSCode using: • Custom Agents • Custom Instructions • Skills" and Section 5.)
 
-- Real underlying intent: Encode RPI's three-phase operational pattern (Research → Plan → Implement) as an executable, agent-driven workflow within VSCode so that agents and skill artifacts drive disciplined phase transitions. (Source: .rpi-docs/The RPI Pattern_ A Research Study.md — Sections 1, 5; .rpi-docs/RPI Phase I_ Epistemology and Research Protocol.md — Title and Section 1).
+- Real underlying intent: Encode RPI's three-phase operational pattern (Research → Plan → Implement) as an executable, agent-driven workflow within VSCode so that agents and skill artifacts drive disciplined phase transitions. (Source: .rpi-docs/rpi-pattern.md — Sections 1, 5; .rpi-docs/rpi-research.md — Title and Section 1).
 
-  (Source: .rpi-docs/The RPI Pattern_ A Research Study.md — "RPI functions as a formal separation of concerns between information gathering (Epistemology), strategy formulation (Decision Theory), and execution (Operationalization)")
+  (Source: .rpi-docs/rpi-pattern.md — "RPI functions as a formal separation of concerns between information gathering (Epistemology), strategy formulation (Decision Theory), and execution (Operationalization)")
 
 - Ambiguities discovered during research (explicitly noted as unknown where not stated):
-  - The repository docs define required artifact names and high-level behaviors (e.g., `research.md`, `plan.md`, `plan.md` verification gates) but do not specify an exact canonical file path or repository-enforced naming convention for the VS Code Custom Agent files beyond examples and recommendations. (Source: .rpi-docs/RPI Phase I_ Epistemology and Research Protocol.md — "The Research Artifact (research.md)" and .rpi-docs/custom-agents.md — Section 1.2 "Location" and examples.)
+  - The repository docs define required artifact names and high-level behaviors (e.g., `research.md`, `plan.md`, `plan.md` verification gates) but do not specify an exact canonical file path or repository-enforced naming convention for the VS Code Custom Agent files beyond examples and recommendations. (Source: .rpi-docs/rpi-research.md — "The Research Artifact (research.md)" and .rpi-docs/custom-agents.md — Section 1.2 "Location" and examples.)
   - The docs reference settings and feature flags (e.g., `github.copilot.chat.organizationCustomAgents.enabled`) but do not enumerate the exact VS Code product versions or delivery mechanism that will enforce them in this repository. (Source: .rpi-docs/custom-agents.md — Section 1.2; .rpi-docs/custom-instructions.md — Section 3.1.)
 
   (Marked Unknown: specific enforcement mechanism and exact repo-level naming conventions where multiple recommended locations are given.)
@@ -19,9 +19,9 @@
 ## 2. Conceptual Scope (Blast Radius)
 
 - Relevant RPI phases and responsibilities (as documented):
-  - Research (Epistemology): Acquire valid knowledge; produce `research.md` artifact; enforce read-only and citation rules. (Source: .rpi-docs/RPI Phase I_ Epistemology and Research Protocol.md — "Phase Objective" and "Operational Constraints" sections.)
-  - Plan (Decision Theory): Transform validated knowledge into deterministic, atomic tasks; produce `plan.md` artifact with verifiable checkboxes. (Source: .rpi-docs/RPI Phase II_ Operational Doctrine for Strategic Planning.md — "Phase Objective" and "The Plan Artifact (plan.md)").
-  - Implement (Operationalization): Mechanically execute plan tasks; follow strict loop and quality gate; produce code and an updated `plan.md` checkbox trail. (Source: .rpi-docs/RPI Phase III_ The Implementation Operationalization Protocol.md — "Phase Objective" and "Execution Protocol").
+  - Research (Epistemology): Acquire valid knowledge; produce `research.md` artifact; enforce read-only and citation rules. (Source: .rpi-docs/rpi-research.md — "Phase Objective" and "Operational Constraints" sections.)
+  - Plan (Decision Theory): Transform validated knowledge into deterministic, atomic tasks; produce `plan.md` artifact with verifiable checkboxes. (Source: .rpi-docs/rpi-plan.md — "Phase Objective" and "The Plan Artifact (plan.md)").
+  - Implement (Operationalization): Mechanically execute plan tasks; follow strict loop and quality gate; produce code and an updated `plan.md` checkbox trail. (Source: .rpi-docs/rpi-implement.md — "Phase Objective" and "Execution Protocol").
 
 - Custom Agents (out of scope for this artifact):
   - The repository documents Custom Agents (e.g., `.agent.md` files and frontmatter), but this research artifact intentionally excludes their use and focuses only on Custom Instructions and Skills. (Source: .rpi-docs/custom-agents.md — Section 1.2 and 1.3.)
@@ -45,19 +45,19 @@
   (Note: The repository documents Custom Agents, but as requested this artifact excludes their use; see .rpi-docs/custom-agents.md for the authoritative description if needed.)
 
 - Behavioral constraints imposed by the RPI methodology (explicit):
-  - Research phase enforcement: Read-only analysis, no solutioning, and mandatory citations for all factual claims. (Source: .rpi-docs/RPI Phase I_ Epistemology and Research Protocol.md — "Operational Constraints" and "Citations Required").
-  - Plan phase enforcement: Planning cannot begin until `research.md` is validated; Plan outputs must be atomic and checklist-formatted. (Source: .rpi-docs/RPI Phase II_ Operational Doctrine for Strategic Planning.md — "Operational Constraints" and "The Plan Artifact (plan.md)").
-  - Implement phase enforcement: Implementation must follow atomic task loop, Quality Gate (Build/Lint/Test), and recursion protocols for failures. (Source: .rpi-docs/RPI Phase III_ The Implementation Operationalization Protocol.md — Sections 3 and 5.)
+  - Research phase enforcement: Read-only analysis, no solutioning, and mandatory citations for all factual claims. (Source: .rpi-docs/rpi-research.md — "Operational Constraints" and "Citations Required").
+  - Plan phase enforcement: Planning cannot begin until `research.md` is validated; Plan outputs must be atomic and checklist-formatted. (Source: .rpi-docs/rpi-plan.md — "Operational Constraints" and "The Plan Artifact (plan.md)").
+  - Implement phase enforcement: Implementation must follow atomic task loop, Quality Gate (Build/Lint/Test), and recursion protocols for failures. (Source: .rpi-docs/rpi-implement.md — Sections 3 and 5.)
 
 - Implicit contracts between phases (documented):
-  - Research → Plan: `research.md` is immutable input for planning; Plan must refuse to start without validated `research.md`. (Source: .rpi-docs/RPI Phase I_ Epistemology and Research Protocol.md — "The Research Artifact" and .rpi-docs/RPI Phase II_ Operational Doctrine for Strategic Planning.md — "Input Strictness".)
-  - Plan → Implement: `plan.md` drives atomic execution; Implement must not improvise beyond `plan.md`. (Source: .rpi-docs/RPI Phase II_ Operational Doctrine for Strategic Planning.md — "Atomic Output" and .rpi-docs/RPI Phase III_ The Implementation Operationalization Protocol.md — "No Improvisation").
+  - Research → Plan: `research.md` is immutable input for planning; Plan must refuse to start without validated `research.md`. (Source: .rpi-docs/rpi-research.md — "The Research Artifact" and .rpi-docs/rpi-plan.md — "Input Strictness".)
+  - Plan → Implement: `plan.md` drives atomic execution; Implement must not improvise beyond `plan.md`. (Source: .rpi-docs/rpi-plan.md — "Atomic Output" and .rpi-docs/rpi-implement.md — "No Improvisation").
 
 ## 4. Existing Patterns and Exemplars
 
 - Documented RPI execution patterns (explicit in repository docs):
-  - RPI as a recursive, gated pattern with phase artifacts that are the authoritative inputs for the next phase. (Source: .rpi-docs/The RPI Pattern_ A Research Study.md — Sections 1, 6, and 7.)
-  - FAR/FACTS validation gates and handoff triggers are defined per-phase (Research uses FAR; Plan uses FACTS). (Source: .rpi-docs/RPI Phase I_ Epistemology and Research Protocol.md — "Validation Protocol (The FAR Gate)"; .rpi-docs/RPI Phase II_ Operational Doctrine for Strategic Planning.md — "Validation Protocol (The FACTS Gate)").
+  - RPI as a recursive, gated pattern with phase artifacts that are the authoritative inputs for the next phase. (Source: .rpi-docs/rpi-pattern.md — Sections 1, 6, and 7.)
+  - FAR/FACTS validation gates and handoff triggers are defined per-phase (Research uses FAR; Plan uses FACTS). (Source: .rpi-docs/rpi-research.md — "Validation Protocol (The FAR Gate)"; .rpi-docs/rpi-plan.md — "Validation Protocol (The FACTS Gate)").
 
 - Existing documented workflow exemplars (only quoting documented material):
   - `SKILL.md` format and directory layout example under `.github/skills/webapp-testing/` showing `SKILL.md`, resource files, and examples. (Source: .rpi-docs/agent-skills.md — Section 2.2 "Structure Example" and 2.3 "SKILL.md Format").
@@ -69,13 +69,13 @@
 ## 5. Validation — FAR Criteria
 
 - Factual: Yes.
-  - Justification: All descriptive claims in this artifact are explicitly referenced to repository documentation (see sources in each section: .rpi-docs/RPI Phase I_ Epistemology and Research Protocol.md; .rpi-docs/RPI Phase II_ Operational Doctrine for Strategic Planning.md; .rpi-docs/RPI Phase III_ The Implementation Operationalization Protocol.md; .rpi-docs/custom-agents.md; .rpi-docs/custom-instructions.md; .rpi-docs/agent-skills.md; .rpi-docs/The RPI Pattern_ A Research Study.md). (Source: multiple files referenced above.)
+  - Justification: All descriptive claims in this artifact are explicitly referenced to repository documentation (see sources in each section: .rpi-docs/rpi-research.md; .rpi-docs/rpi-plan.md; .rpi-docs/rpi-implement.md; .rpi-docs/custom-agents.md; .rpi-docs/custom-instructions.md; .rpi-docs/agent-skills.md; .rpi-docs/rpi-pattern.md). (Source: multiple files referenced above.)
 
 - Actionable: Yes (with caveats).
   - Justification: The artifact documents concrete, repository-defined inputs and gates (`research.md`, `plan.md`, `SKILL.md`, `.agent.md` frontmatter fields, `applyTo` patterns). A Planner can, using only these documents and the cited locations, enumerate the tasks needed to implement agent files and skill directories. Caveat: some environment-level toggles and runtime enforcement details (e.g., which VS Code/Copilot versions and settings are required to enforce org-level features) are not fully enumerated and are therefore "unknown" here. (Source: .rpi-docs/custom-agents.md — fields and locations; .rpi-docs/custom-instructions.md — settings references.)
 
 - Relevant: Yes.
-  - Justification: The content focuses strictly on what exists in repository documentation relevant to implementing an RPI workflow in VSCode (agent definitions, instruction files, skills, phase artifacts, and validation gates). It does not propose solutions or architectures beyond restating documented behavior. (Source: .rpi-docs/The RPI Pattern_ A Research Study.md — Sections 1 and 7; .rpi-docs/RPI Phase I/II/III files.)
+  - Justification: The content focuses strictly on what exists in repository documentation relevant to implementing an RPI workflow in VSCode (agent definitions, instruction files, skills, phase artifacts, and validation gates). It does not propose solutions or architectures beyond restating documented behavior. (Source: .rpi-docs/rpi-pattern.md — Sections 1 and 7; .rpi-docs/RPI Phase I/II/III files.)
 
 ---
 
