@@ -155,7 +155,7 @@ fi
 
 echo ""
 echo "==================================================================="
-echo "If any checks failed above, review docs/rpi-workflow.md for guidance."
+echo "If any checks failed above, review .rpi-docs/rpi-workflow.md for guidance."
 echo "For loading issues, open a GitHub issue with VS Code logs attached."
 echo "==================================================================="
 echo ""
