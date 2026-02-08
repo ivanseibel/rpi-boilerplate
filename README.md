@@ -12,6 +12,8 @@ RPI (Research → Plan → Implement) is a three-phase methodology that enforces
 
 This repository provides a complete scaffold with Custom Instructions, Skills, governance files, and CI validation to make RPI workflows executable and enforceable.
 
+**Note:** The repository's `.rpi` folder contains the boilerplate, templates, skills, and example artifacts used to demonstrate and test the RPI scaffold. It is not itself an active project or part of a single feature's RPI workflow. When you create RPI work artifacts for a project, create a new directory under `.rpi/<project-id>/` in your project — do not treat this repository's root `.rpi` contents as a live project workspace.
+
 ---
 
 ## Features

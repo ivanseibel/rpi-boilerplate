@@ -1,0 +1,25 @@
+{
+	"name": "rpi-scaffold-cloner",
+	"version": "1.0.0",
+	"description": "CLI to safely replicate RPI workflow scaffolding into target repositories",
+	"type": "module",
+	"engines": {
+		"node": ">=20.0.0"
+	},
+	"bin": {
+		"rpi-cloner": "./bin/rpi-cloner.js"
+	},
+	"scripts": {
+		"test": "node --test tests/**/*.test.js",
+		"test:watch": "node --test --watch tests/**/*.test.js"
+	},
+	"keywords": [
+		"rpi",
+		"scaffold",
+		"workflow",
+		"copilot"
+	],
+	"author": "",
+	"license": "MIT",
+	"devDependencies": {}
+}

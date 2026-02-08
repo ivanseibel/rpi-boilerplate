@@ -1,0 +1,18 @@
+{
+	"$schema": "https://json-schema.org/draft-07/schema#",
+	"description": "RPI Scaffold Cloner manifest — canonical list of paths to copy",
+	"version": "1.0.0",
+	"paths": [
+		"AGENTS.md",
+		".github/copilot-instructions.md",
+		".github/instructions/research.instructions.md",
+		".github/instructions/plan.instructions.md",
+		".github/skills/rpi-workflow/SKILL.md",
+		".github/prompts/research.prompt.md",
+		".github/prompts/plan.prompt.md",
+		".github/prompts/implement.prompt.md",
+		".vscode/settings.json",
+		".github/workflows/rpi-validate.yml",
+		"scripts/check-vscode-load.sh"
+	]
+}

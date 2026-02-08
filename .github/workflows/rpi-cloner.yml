@@ -1,0 +1,88 @@
+name: RPI Cloner Tests
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - "bin/**"
+      - "lib/**"
+      - "tests/**"
+      - "manifest/**"
+      - "package.json"
+      - ".github/workflows/rpi-cloner.yml"
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - "bin/**"
+      - "lib/**"
+      - "tests/**"
+      - "manifest/**"
+      - "package.json"
+      - ".github/workflows/rpi-cloner.yml"
+
+jobs:
+  test:
+    name: Test on Node.js ${{ matrix.node-version }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        node-version: [20, 22]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Run tests
+        run: npm test
+
+      - name: Verify CLI executable
+        run: |
+          chmod +x bin/rpi-cloner.js
+          node bin/rpi-cloner.js --help
+
+      - name: Validate manifest
+        run: |
+          node -e "const m = require('./manifest/scaffold.json'); console.log('Manifest has', m.paths.length, 'paths');"
+
+      - name: Smoke test - dry run
+        run: |
+          mkdir -p /tmp/rpi-test-target
+          node bin/rpi-cloner.js --dry-run --target /tmp/rpi-test-target
+
+  manifest-integrity:
+    name: Verify Manifest Integrity
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check all manifest paths exist in source
+        run: |
+          node -e "
+          const fs = require('fs');
+          const path = require('path');
+          const manifest = require('./manifest/scaffold.json');
+
+          let missing = [];
+          for (const p of manifest.paths) {
+            const fullPath = path.join(process.cwd(), p);
+            if (!fs.existsSync(fullPath)) {
+              missing.push(p);
+            }
+          }
+
+          if (missing.length > 0) {
+            console.error('Missing files in manifest:', missing);
+            process.exit(1);
+          }
+
+          console.log('✅ All', manifest.paths.length, 'manifest paths exist');
+          "
