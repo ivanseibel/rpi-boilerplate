@@ -125,8 +125,8 @@ If any handoff criteria cannot be met:
 
 - **Agent Roles:** See `AGENTS.md` for detailed role definitions and constraints
 - **Validation Guide:** See `.github/skills/rpi-workflow/resources/validation/README.md` for FAR and FACTS criteria details
-- **Operator Guide:** See `docs/rpi-workflow.md` for comprehensive workflow documentation
-- **Methodology Docs:** See `docs/` for detailed RPI phase protocols
+- **Operator Guide:** See `.rpi-docs/rpi-workflow.md` for comprehensive workflow documentation
+- **Methodology Docs:** See `.rpi-docs/` for detailed RPI phase protocols
 
 ---
 

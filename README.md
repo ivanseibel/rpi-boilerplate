@@ -248,7 +248,7 @@ git push
 
 AGENTS.md                          # Agent roles and handoffs
 .vscode/settings.json              # VS Code recommendations
-docs/
+.rpi-docs/
   rpi-workflow.md                  # Operator guide
   handoff-checklist.md            # Phase transition checklist
 ```
@@ -347,8 +347,8 @@ AGENTS.md
 .vscode/settings.json
 
 # Documentation
-docs/rpi-workflow.md
-docs/handoff-checklist.md
+.rpi-docs/rpi-workflow.md
+.rpi-docs/handoff-checklist.md
 scripts/check-vscode-load.sh
 ```
 
@@ -458,14 +458,14 @@ Implement Prompt:
 
 ## Resources
 
-- **Methodology Docs:** `docs/` directory
-  - [RPI Phase I: Research Protocol](docs/RPI%20Phase%20I_%20Epistemology%20and%20Research%20Protocol.md)
-  - [RPI Phase II: Planning Doctrine](docs/RPI%20Phase%20II_%20Operational%20Doctrine%20for%20Strategic%20Planning.md)
-  - [RPI Phase III: Implementation Protocol](docs/RPI%20Phase%20III_%20The%20Implementation%20Operationalization%20Protocol.md)
+- **Methodology Docs:** `.rpi-docs/` directory
+  - [RPI Phase I: Research Protocol](.rpi-docs/RPI%20Phase%20I_%20Epistemology%20and%20Research%20Protocol.md)
+  - [RPI Phase II: Planning Doctrine](.rpi-docs/RPI%20Phase%20II_%20Operational%20Doctrine%20for%20Strategic%20Planning.md)
+  - [RPI Phase III: Implementation Protocol](.rpi-docs/RPI%20Phase%20III_%20The%20Implementation%20Operationalization%20Protocol.md)
 
 - **Governance:** [AGENTS.md](AGENTS.md) - Agent roles and handoff rules
-- **Operator Guide:** [docs/rpi-workflow.md](docs/rpi-workflow.md) - Step-by-step usage
-- **Skills Documentation:** [docs/agent-skills.md](docs/agent-skills.md)
+- **Operator Guide:** [.rpi-docs/rpi-workflow.md](.rpi-docs/rpi-workflow.md) - Step-by-step usage
+- **Skills Documentation:** [.rpi-docs/agent-skills.md](.rpi-docs/agent-skills.md)
 
 ---
 

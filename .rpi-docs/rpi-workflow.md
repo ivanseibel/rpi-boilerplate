@@ -23,7 +23,7 @@ All RPI artifacts are repository-backed and version controlled:
 | Prompt Entry Points | `.github/prompts/*.prompt.md`              | Phase invocation templates                          |
 | CI Validation       | `.github/workflows/rpi-validate.yml`       | Automated artifact structure checks                 |
 | Phase Artifacts     | `.rpi/<project-id>/research.md`, `plan.md` | Research and planning outputs                       |
-| Documentation       | `docs/*.md`                                | RPI methodology reference                           |
+| Documentation       | `.rpi-docs/*.md`                                | RPI methodology reference                           |
 
 ## Using Prompt Files
 
@@ -208,7 +208,7 @@ See `AGENTS.md` for detailed role definitions. Summary:
 
 ## Additional Resources
 
-- **RPI Methodology Docs:** `docs/` directory
+- **RPI Methodology Docs:** `.rpi-docs/` directory
   - [RPI Phase I: Research Protocol](RPI%20Phase%20I_%20Epistemology%20and%20Research%20Protocol.md)
   - [RPI Phase II: Planning Doctrine](RPI%20Phase%20II_%20Operational%20Doctrine%20for%20Strategic%20Planning.md)
   - [RPI Phase III: Implementation Protocol](RPI%20Phase%20III_%20The%20Implementation%20Operationalization%20Protocol.md)

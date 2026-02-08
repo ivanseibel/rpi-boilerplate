@@ -117,8 +117,8 @@ jobs:
           grep -q "github.copilot.chat.codeGeneration.useInstructionFiles" .vscode/settings.json || { echo "❌ Missing useInstructionFiles setting"; exit 1; }
 
           echo "Checking documentation..."
-          test -f docs/rpi-workflow.md || { echo "❌ Missing rpi-workflow.md"; exit 1; }
-          grep -q "VS Code Load Checks" docs/rpi-workflow.md || { echo "❌ Missing VS Code Load Checks section"; exit 1; }
+          test -f .rpi-docs/rpi-workflow.md || { echo "❌ Missing rpi-workflow.md"; exit 1; }
+          grep -q "VS Code Load Checks" .rpi-docs/rpi-workflow.md || { echo "❌ Missing VS Code Load Checks section"; exit 1; }
 
           echo "✅ Settings and documentation valid"
 
@@ -138,14 +138,14 @@ jobs:
       - name: Validate handoff checklist
         run: |
           echo "Checking handoff checklist..."
-          test -f docs/handoff-checklist.md || { echo "❌ Missing handoff-checklist.md"; exit 1; }
+          test -f .rpi-docs/handoff-checklist.md || { echo "❌ Missing handoff-checklist.md"; exit 1; }
 
           # Check for required checklist items
-          grep -q "research.md validated" docs/handoff-checklist.md || { echo "❌ Missing research.md validated item"; exit 1; }
-          grep -q "plan.md present and FACTS affirmed" docs/handoff-checklist.md || { echo "❌ Missing plan.md FACTS item"; exit 1; }
-          grep -q "AGENTS.md reviewed" docs/handoff-checklist.md || { echo "❌ Missing AGENTS.md reviewed item"; exit 1; }
-          grep -q "CI validation passing" docs/handoff-checklist.md || { echo "❌ Missing CI validation item"; exit 1; }
-          grep -q "SIGNOFF" docs/handoff-checklist.md || { echo "❌ Missing SIGNOFF documentation"; exit 1; }
+          grep -q "research.md validated" .rpi-docs/handoff-checklist.md || { echo "❌ Missing research.md validated item"; exit 1; }
+          grep -q "plan.md present and FACTS affirmed" .rpi-docs/handoff-checklist.md || { echo "❌ Missing plan.md FACTS item"; exit 1; }
+          grep -q "AGENTS.md reviewed" .rpi-docs/handoff-checklist.md || { echo "❌ Missing AGENTS.md reviewed item"; exit 1; }
+          grep -q "CI validation passing" .rpi-docs/handoff-checklist.md || { echo "❌ Missing CI validation item"; exit 1; }
+          grep -q "SIGNOFF" .rpi-docs/handoff-checklist.md || { echo "❌ Missing SIGNOFF documentation"; exit 1; }
 
           echo "✅ Handoff checklist valid"
 
