@@ -459,9 +459,9 @@ Implement Prompt:
 ## Resources
 
 - **Methodology Docs:** `.rpi-docs/` directory
-  - [RPI Phase I: Research Protocol](.rpi-docs/RPI%20Phase%20I_%20Epistemology%20and%20Research%20Protocol.md)
-  - [RPI Phase II: Planning Doctrine](.rpi-docs/RPI%20Phase%20II_%20Operational%20Doctrine%20for%20Strategic%20Planning.md)
-  - [RPI Phase III: Implementation Protocol](.rpi-docs/RPI%20Phase%20III_%20The%20Implementation%20Operationalization%20Protocol.md)
+  - [RPI Phase I: Research Protocol](.rpi-docs/rpi-research.md)
+  - [RPI Phase II: Planning Doctrine](.rpi-docs/rpi-plan.md)
+  - [RPI Phase III: Implementation Protocol](.rpi-docs/rpi-implement.md)
 
 - **Governance:** [AGENTS.md](AGENTS.md) - Agent roles and handoff rules
 - **Operator Guide:** [.rpi-docs/rpi-workflow.md](.rpi-docs/rpi-workflow.md) - Step-by-step usage
