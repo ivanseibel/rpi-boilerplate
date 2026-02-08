@@ -1,0 +1,217 @@
+name: Validate RPI Artifacts
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+
+jobs:
+  validate-rpi-artifacts:
+    name: Validate RPI Workflow Artifacts
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate global instruction file
+        run: |
+          echo "Checking .github/copilot-instructions.md..."
+          test -f .github/copilot-instructions.md || { echo "❌ Missing global instruction file"; exit 1; }
+          grep -q "RPI constitution" .github/copilot-instructions.md || { echo "❌ Missing RPI constitution phrase"; exit 1; }
+          if grep -q "applyTo:" .github/copilot-instructions.md; then
+            echo "❌ Global instruction file should not contain applyTo"
+            exit 1
+          fi
+          echo "✅ Global instruction file valid"
+
+      - name: Validate governance files
+        run: |
+          echo "Checking AGENTS.md files..."
+          test -f AGENTS.md || { echo "❌ Missing root AGENTS.md"; exit 1; }
+          test -f .rpi/AGENTS.md || { echo "❌ Missing .rpi/AGENTS.md"; exit 1; }
+
+          # Check for required table with role names
+          grep -q "Researcher" AGENTS.md || { echo "❌ Missing Researcher role"; exit 1; }
+          grep -q "Planner" AGENTS.md || { echo "❌ Missing Planner role"; exit 1; }
+          grep -q "Implementer" AGENTS.md || { echo "❌ Missing Implementer role"; exit 1; }
+
+          # Verify files are identical
+          diff AGENTS.md .rpi/AGENTS.md || { echo "❌ AGENTS.md files not identical"; exit 1; }
+          echo "✅ Governance files valid"
+
+      - name: Validate scoped instruction files
+        run: |
+          echo "Checking scoped instruction files..."
+          test -d .github/instructions || { echo "❌ Missing instructions directory"; exit 1; }
+
+          # Research instructions
+          test -f .github/instructions/research.instructions.md || { echo "❌ Missing research.instructions.md"; exit 1; }
+          grep -q "^---" .github/instructions/research.instructions.md || { echo "❌ Missing frontmatter delimiter"; exit 1; }
+          grep -q "applyTo:" .github/instructions/research.instructions.md || { echo "❌ Missing applyTo field"; exit 1; }
+          grep -q "description:" .github/instructions/research.instructions.md || { echo "❌ Missing description field"; exit 1; }
+          grep -q "Must:" .github/instructions/research.instructions.md || { echo "❌ Missing Must: constraint"; exit 1; }
+
+          # Plan instructions
+          test -f .github/instructions/plan.instructions.md || { echo "❌ Missing plan.instructions.md"; exit 1; }
+          grep -q "^---" .github/instructions/plan.instructions.md || { echo "❌ Missing frontmatter delimiter"; exit 1; }
+          grep -q "applyTo:" .github/instructions/plan.instructions.md || { echo "❌ Missing applyTo field"; exit 1; }
+          grep -q "description:" .github/instructions/plan.instructions.md || { echo "❌ Missing description field"; exit 1; }
+          grep -q "Must:" .github/instructions/plan.instructions.md || { echo "❌ Missing Must: constraint"; exit 1; }
+
+          echo "✅ Scoped instruction files valid"
+
+      - name: Validate RPI workflow skill
+        run: |
+          echo "Checking RPI workflow skill..."
+          test -d .github/skills/rpi-workflow || { echo "❌ Missing skill directory"; exit 1; }
+          test -f .github/skills/rpi-workflow/SKILL.md || { echo "❌ Missing SKILL.md"; exit 1; }
+
+          # Check frontmatter
+          grep -q "^---" .github/skills/rpi-workflow/SKILL.md || { echo "❌ Missing frontmatter delimiter"; exit 1; }
+          grep -q "^name: " .github/skills/rpi-workflow/SKILL.md || { echo "❌ Missing name field"; exit 1; }
+          grep -q "^description: " .github/skills/rpi-workflow/SKILL.md || { echo "❌ Missing description field"; exit 1; }
+
+          # Check name format (lowercase, hyphens only)
+          SKILL_NAME=$(grep "^name: " .github/skills/rpi-workflow/SKILL.md | sed 's/^name: //')
+          if ! echo "$SKILL_NAME" | grep -qE "^[a-z0-9-]+$"; then
+            echo "❌ Skill name must match ^[a-z0-9-]+$ regex"
+            exit 1
+          fi
+
+          # Check required sections
+          grep -q "^## Usage" .github/skills/rpi-workflow/SKILL.md || { echo "❌ Missing Usage section"; exit 1; }
+          grep -q "^## Resources" .github/skills/rpi-workflow/SKILL.md || { echo "❌ Missing Resources section"; exit 1; }
+
+          # Check resources
+          test -f .github/skills/rpi-workflow/resources/plan-template.md || { echo "❌ Missing plan-template.md"; exit 1; }
+          test -f .github/skills/rpi-workflow/resources/prompts/plan-example.md || { echo "❌ Missing plan-example.md"; exit 1; }
+          test -f .github/skills/rpi-workflow/resources/validation/README.md || { echo "❌ Missing validation README.md"; exit 1; }
+
+          echo "✅ RPI workflow skill valid"
+
+      - name: Validate prompt entry points
+        run: |
+          echo "Checking prompt files..."
+          test -d .github/prompts || { echo "❌ Missing prompts directory"; exit 1; }
+
+          # Research prompt
+          test -f .github/prompts/research.prompt.md || { echo "❌ Missing research.prompt.md"; exit 1; }
+          grep -q "Input:" .github/prompts/research.prompt.md || { echo "❌ Missing Input: line in research prompt"; exit 1; }
+
+          # Plan prompt
+          test -f .github/prompts/plan.prompt.md || { echo "❌ Missing plan.prompt.md"; exit 1; }
+          grep -q "Input:" .github/prompts/plan.prompt.md || { echo "❌ Missing Input: line in plan prompt"; exit 1; }
+
+          # Implement prompt
+          test -f .github/prompts/implement.prompt.md || { echo "❌ Missing implement.prompt.md"; exit 1; }
+          grep -q "Input:" .github/prompts/implement.prompt.md || { echo "❌ Missing Input: line in implement prompt"; exit 1; }
+
+          echo "✅ Prompt entry points valid"
+
+      - name: Validate VS Code settings and documentation
+        run: |
+          echo "Checking VS Code settings..."
+          test -f .vscode/settings.json || { echo "❌ Missing .vscode/settings.json"; exit 1; }
+          grep -q "github.copilot.chat.codeGeneration.useInstructionFiles" .vscode/settings.json || { echo "❌ Missing useInstructionFiles setting"; exit 1; }
+
+          echo "Checking documentation..."
+          test -f docs/rpi-workflow.md || { echo "❌ Missing rpi-workflow.md"; exit 1; }
+          grep -q "VS Code Load Checks" docs/rpi-workflow.md || { echo "❌ Missing VS Code Load Checks section"; exit 1; }
+
+          echo "✅ Settings and documentation valid"
+
+      - name: Validate helper script
+        run: |
+          echo "Checking helper script..."
+          test -f scripts/check-vscode-load.sh || { echo "❌ Missing check-vscode-load.sh"; exit 1; }
+          test -x scripts/check-vscode-load.sh || { echo "❌ Script not executable"; exit 1; }
+
+          # Check that script contains required steps
+          grep -q "Step 1:" scripts/check-vscode-load.sh || { echo "❌ Missing Step 1 in script"; exit 1; }
+          grep -q "Step 2:" scripts/check-vscode-load.sh || { echo "❌ Missing Step 2 in script"; exit 1; }
+          grep -q "Step 3:" scripts/check-vscode-load.sh || { echo "❌ Missing Step 3 in script"; exit 1; }
+
+          echo "✅ Helper script valid"
+
+      - name: Validate handoff checklist
+        run: |
+          echo "Checking handoff checklist..."
+          test -f docs/handoff-checklist.md || { echo "❌ Missing handoff-checklist.md"; exit 1; }
+
+          # Check for required checklist items
+          grep -q "research.md validated" docs/handoff-checklist.md || { echo "❌ Missing research.md validated item"; exit 1; }
+          grep -q "plan.md present and FACTS affirmed" docs/handoff-checklist.md || { echo "❌ Missing plan.md FACTS item"; exit 1; }
+          grep -q "AGENTS.md reviewed" docs/handoff-checklist.md || { echo "❌ Missing AGENTS.md reviewed item"; exit 1; }
+          grep -q "CI validation passing" docs/handoff-checklist.md || { echo "❌ Missing CI validation item"; exit 1; }
+          grep -q "SIGNOFF" docs/handoff-checklist.md || { echo "❌ Missing SIGNOFF documentation"; exit 1; }
+
+          echo "✅ Handoff checklist valid"
+
+      - name: Validate RPI phase artifacts (if present)
+        run: |
+          echo "Checking for RPI phase artifacts..."
+
+          # Find all .rpi project directories
+          if [ -d .rpi ]; then
+            for PROJECT_DIR in .rpi/*/; do
+              if [ -d "$PROJECT_DIR" ]; then
+                PROJECT_NAME=$(basename "$PROJECT_DIR")
+                echo "Checking project: $PROJECT_NAME"
+                
+                # If research.md exists, validate structure
+                if [ -f "${PROJECT_DIR}research.md" ]; then
+                  echo "  Validating research.md..."
+                  grep -q "Problem Statement" "${PROJECT_DIR}research.md" || echo "  ⚠️  Missing Problem Statement section"
+                  grep -q "FAR" "${PROJECT_DIR}research.md" || echo "  ⚠️  Missing FAR validation"
+                fi
+                
+                # If plan.md exists, validate structure
+                if [ -f "${PROJECT_DIR}plan.md" ]; then
+                  echo "  Validating plan.md..."
+                  grep -q "FACTS" "${PROJECT_DIR}plan.md" || echo "  ⚠️  Missing FACTS validation"
+                  grep -q "Atomic Task List" "${PROJECT_DIR}plan.md" || echo "  ⚠️  Missing Atomic Task List section"
+                fi
+              fi
+            done
+          fi
+
+          echo "✅ Phase artifacts checked"
+
+      - name: Check for SIGNOFF on implementation PRs
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "Checking for implementation labels and SIGNOFF..."
+
+          # Note: This is a simplified check. In production, you would:
+          # 1. Use GitHub API to check PR labels
+          # 2. Verify SIGNOFF file exists if "implementation" label is present
+          # 3. Ensure all tasks in plan.md are marked complete
+
+          # For now, just check if any SIGNOFF files exist in changed files
+          if git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -q "SIGNOFF"; then
+            echo "✅ SIGNOFF file detected in PR"
+          else
+            echo "ℹ️  No SIGNOFF file in this PR (OK if not implementation phase)"
+          fi
+
+      - name: Summary
+        run: |
+          echo ""
+          echo "=========================================="
+          echo "✅ All RPI workflow artifacts validated!"
+          echo "=========================================="
+          echo ""
+          echo "Validated:"
+          echo "  • Global instruction file"
+          echo "  • Governance files (AGENTS.md)"
+          echo "  • Scoped instruction files"
+          echo "  • RPI workflow skill"
+          echo "  • Prompt entry points"
+          echo "  • VS Code settings and docs"
+          echo "  • Helper script"
+          echo "  • Handoff checklist"
+          echo "  • Phase artifacts (if present)"
+          echo ""
+          echo "Repository is RPI-compliant! 🎉"
