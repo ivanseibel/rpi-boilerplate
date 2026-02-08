@@ -23,7 +23,7 @@ All RPI artifacts are repository-backed and version controlled:
 | Prompt Entry Points | `.github/prompts/*.prompt.md`              | Phase invocation templates                          |
 | CI Validation       | `.github/workflows/rpi-validate.yml`       | Automated artifact structure checks                 |
 | Phase Artifacts     | `.rpi/<project-id>/research.md`, `plan.md` | Research and planning outputs                       |
-| Documentation       | `.rpi-docs/*.md`                                | RPI methodology reference                           |
+| Documentation       | `.rpi-docs/*.md`                           | RPI methodology reference                           |
 
 ## Using Prompt Files
 
